@@ -5,8 +5,13 @@ image:
  file: .gitpod.Dockerfile
 
 tasks:
- - init: pnpm install && pnpm db:push && pnpm db:seed
-   command: pnpm dev
+ - init: |
+      pnpm install
+      pnpm db:push && pnpm db:seed
+   command: 
+      npx prisma generate --schema=./apps/api/prisma/schema.prisma
+      npx prisma migrate dev --schema=./apps/api/prisma/schema.prisma
+      pnpm dev
 
 ports:
   - port: 3001
