@@ -32,7 +32,7 @@
 	import { errorNotification } from '$lib/common';
 	import { appSession } from '$lib/store';
 	import PublicRepository from './_PublicRepository.svelte';
-import Explainer from '$lib/components/Explainer.svelte';
+	import Explainer from '$lib/components/Explainer.svelte';
 
 	const { id } = $page.params;
 	const from = $page.url.searchParams.get('from');

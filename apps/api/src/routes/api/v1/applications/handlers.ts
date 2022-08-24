@@ -493,6 +493,9 @@ export async function deployApplication(request: FastifyRequest<DeployApplicatio
 export async function saveApplicationSource(request: FastifyRequest<SaveApplicationSource>, reply: FastifyReply) {
     try {
         const { id } = request.params
+        if(id == "_"){
+            return reply.code(201).send()
+        }
         const { gitSourceId, forPublic, type } = request.body
         if (forPublic) {
             const publicGit = await prisma.gitSource.findFirst({ where: { type, forPublic } });
@@ -560,6 +563,10 @@ export async function checkRepository(request: FastifyRequest<CheckRepository>) 
 export async function saveRepository(request, reply) {
     try {
         const { id } = request.params
+        if(id == "_"){
+            // TODO: Implement proper query to check if the repo is used by logged in user
+            reply.code(201).send()
+        }
         let { repository, branch, projectId, autodeploy, webhookToken, isPublicRepository = false } = request.body
 
         repository = repository.toLowerCase();

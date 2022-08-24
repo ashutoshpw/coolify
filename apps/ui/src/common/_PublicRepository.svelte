@@ -9,7 +9,6 @@
 	import { errorNotification } from '$lib/common';
 
 	const { id } = $page.params;
-	const repoUrl = $page.url.searchParams.get('repo')
 
 	let publicRepositoryLink: string;
 	let projectId: number;
@@ -21,12 +20,6 @@
 	let loading = {
 		branches: false
 	};
-
-	if(repoUrl) {
-		publicRepositoryLink = repoUrl
-		loadBranches()
-	}
-
 	async function loadBranches() {
 		try {
 			loading.branches = true;
@@ -108,6 +101,7 @@
 						type
 					);
 					branches = branches.concat(nextBranches);
+                    // @ts-ignore
 					branchCount = nextBranches.length;
 				}
 			}

@@ -2,6 +2,7 @@
 	import type { Load } from '@sveltejs/kit';
 	export const load: Load = async ({ fetch, params, stuff, url }) => {
 		try {
+			console.log({stuff, params, url})
 			if (stuff?.application?.id) {
 				return {
 					props: {

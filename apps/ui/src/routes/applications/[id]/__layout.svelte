@@ -15,6 +15,29 @@
 	}
 	export const load: Load = async ({ fetch, url, params }) => {
 		try {
+			if (params.id === '_') {
+				
+				const appSettings = {
+					id:'_',
+					isBot: false,
+				}
+				const appConfig = {
+					id:'_',
+					name:'New Application',
+					settings: appSettings,
+				}
+				return {
+					props: {
+						application: appConfig,
+						settings:appSettings
+					},
+					stuff: {
+						application:appConfig,
+						appId: "",
+						settings: appSettings
+					}
+				};
+			}
 			const response = await get(`/applications/${params.id}`);
 			let { application, appId, settings } = response;
 			if (!application || Object.entries(application).length === 0) {
@@ -79,7 +102,10 @@
 
 	async function handleDeploySubmit(forceRebuild = false) {
 		try {
-			const { buildId } = await post(`/applications/${id}/deploy`, { ...application, forceRebuild });
+			const { buildId } = await post(`/applications/${id}/deploy`, {
+				...application,
+				forceRebuild
+			});
 			addToast({
 				message: $t('application.deployment_queued'),
 				type: 'success'
@@ -153,6 +179,7 @@
 	});
 </script>
 
+{#if id != '_'}
 <nav class="nav-side">
 	{#if loading}
 		<Loading fullscreen cover />
@@ -178,8 +205,7 @@
 					<polyline points="15 4 20 4 20 9" />
 				</svg></a
 			>
-		<div class="border border-coolgray-500 h-8" />
-
+			<div class="border border-coolgray-500 h-8" />
 		{/if}
 
 		{#if $status.application.isExited}
@@ -524,4 +550,5 @@
 		</button>
 	{/if}
 </nav>
+{/if}
 <slot />
